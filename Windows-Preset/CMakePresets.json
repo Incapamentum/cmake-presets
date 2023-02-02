@@ -1,0 +1,102 @@
+{
+    "version": 4,
+    "configurePresets": [
+        {
+            "name": "windows-base",
+            "displayName": "Base Preset",
+            "description": "Default preset for Windows systems",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "installDir": "${sourceDir}/install/${presetName}",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "debug-msvc",
+            "displayName": "Windows Debug (MSVC)",
+            "description": "Sets debug build type for MSVC",
+            "inherits": "windows-base",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "cl.exe",
+                "CMAKE_CXX_COMPILER": "cl.exe",
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "release-msvc",
+            "displayName": "Windows Release (MSVC)",
+            "description": "Sets release build type for MSVC",
+            "inherits": "debug-msvc",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "debug-gcc",
+            "displayName": "Windows Debug (gcc)",
+            "description": "Sets debug build type for gcc",
+            "inherits": "windows-base",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "C:/msys64/mingw64/bin/gcc.exe",
+                "CMAKE_CXX_COMPILER": "C:/msys64/mingw64/bin/g++.exe",
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "release-gcc",
+            "displayName": "Windows Release (gcc)",
+            "description": "Sets release build type for gcc",
+            "inherits": "debug-gcc",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "msvc-debug-build",
+            "displayName": "Windows Debug Build (MSVC)",
+            "configurePreset": "debug-msvc",
+            "description": "Default Windows debug build (MSVC)"
+        },
+        {
+            "name": "msvc-release-build",
+            "displayName": "Windows Release Build (MSVC)",
+            "configurePreset": "release-msvc",
+            "description": "Default Windows release build (MSVC)"
+        },
+        {
+            "name": "gcc-debug-build",
+            "displayName": "Windows Debug Build (gcc)",
+            "configurePreset": "debug-gcc",
+            "description": "Default Windows debug build (gcc)"
+        },
+        {
+            "name": "gcc-release-build",
+            "displayName": "Windows Release Build (gcc)",
+            "configurePreset": "release-gcc",
+            "description": "Default Windows release build (gcc)"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "core-test-windows",
+            "description": "Enable output on failure",
+            "configurePreset": "debug-msvc",
+            "output": {
+                "outputOnFailure": true
+            }
+        },
+        {
+            "name": "core-test-windows",
+            "description": "Enable output on failure",
+            "configurePreset": "debug-gcc",
+            "output": {
+                "outputOnFailure": true
+            }
+        }
+    ]
+}

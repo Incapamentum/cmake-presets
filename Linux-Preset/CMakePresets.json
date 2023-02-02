@@ -1,0 +1,59 @@
+{
+    "version": 4,
+    "configurePresets": [
+        {
+            "name": "linux-base-gcc",
+            "displayName": "Base Preset (gcc)",
+            "description": "Default preset for Linux systems",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "installDir": "${sourceDir}/install/${presetName}",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "/usr/bin/gcc",
+                "CMAKE_CXX_COMPILER": "/usr/bin/g++"
+            }
+        },
+        {
+            "name": "debug-x86_64",
+            "displayName": "Linux Debug, x86_64 (gcc)",
+            "description": "Sets debug build type",
+            "inherits": "linux-base-gcc",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "release-x86_64",
+            "displayName": "Linux Release, x86_64 (gcc)",
+            "description": "Sets release build type",
+            "inherits": "linux-base-gcc",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "debug-build",
+            "displayName": "Linux Debug Build",
+            "configurePreset": "debug-x86_64",
+            "description": "Default x86_64 debug build"
+        },
+        {
+            "name": "release-build",
+            "displayName": "Linux Release Build",
+            "configurePreset": "release-x86_64",
+            "description": "Default x86_64 release build"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "core-test-linux",
+            "description": "Enable output on failure",
+            "configurePreset": "debug-x86_64",
+            "output": {
+                "outputOnFailure": true
+            }
+        }
+    ]
+}
